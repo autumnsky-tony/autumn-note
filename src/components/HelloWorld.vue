@@ -1,58 +1,81 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+  <div>
+    <div v-for="(sentence, idx) in sentences" :key="idx">
+      <span v-html="markdownParser(sentence)"></span>
+    </div>
+    <p></p>
+    <textarea v-model="content" name="" id="" cols="30" rows="10"></textarea>
+    <button @click="getContent">변환</button>
   </div>
 </template>
 
 <script>
 export default {
   name: 'HelloWorld',
-  props: {
-    msg: String
+  data() {
+    return {
+      content: '',
+      sentences : [],
+    }
+  },
+  methods: {  
+    getContent() {
+      this.sentences = this.content.split('\n')
+    },
+    parseMd(md){
+      //ul
+      md = md.replace(/^\s*\n\*/gm, '<ul>\n*');
+      md = md.replace(/^(\*.+)\s*\n([^\*])/gm, '$1\n</ul>\n\n$2');
+      md = md.replace(/^\*(.+)/gm, '<li>$1</li>');
+      
+      //ol
+      md = md.replace(/^\s*\n\d\./gm, '<ol>\n1.');
+      md = md.replace(/^(\d\..+)\s*\n([^\d\.])/gm, '$1\n</ol>\n\n$2');
+      md = md.replace(/^\d\.(.+)/gm, '<li>$1</li>');
+      
+      //blockquote
+      md = md.replace(/^\>(.+)/gm, '<blockquote>$1</blockquote>');
+      
+      //h
+      md = md.replace(/[\#]{6}(.+)/g, '<h6>$1</h6>');
+      md = md.replace(/[\#]{5}(.+)/g, '<h5>$1</h5>');
+      md = md.replace(/[\#]{4}(.+)/g, '<h4>$1</h4>');
+      md = md.replace(/[\#]{3}(.+)/g, '<h3>$1</h3>');
+      md = md.replace(/[\#]{2}(.+)/g, '<h2>$1</h2>');
+      md = md.replace(/[\#]{1}(.+)/g, '<h1>$1</h1>');
+      
+      //alt h
+      md = md.replace(/^(.+)\n\=+/gm, '<h1>$1</h1>');
+      md = md.replace(/^(.+)\n\-+/gm, '<h2>$1</h2>');
+      
+      //images
+      md = md.replace(/\!\[([^\]]+)\]\(([^\)]+)\)/g, '<img src="$2" alt="$1" />');
+      
+      //links
+      md = md.replace(/[\[]{1}([^\]]+)[\]]{1}[\(]{1}([^\)\"]+)(\"(.+)\")?[\)]{1}/g, '<a href="$2" title="$4">$1</a>');
+      
+      //font styles
+      md = md.replace(/[\*\_]{2}([^\*\_]+)[\*\_]{2}/g, '<b>$1</b>');
+      md = md.replace(/[\*\_]{1}([^\*\_]+)[\*\_]{1}/g, '<i>$1</i>');
+      md = md.replace(/[\~]{2}([^\~]+)[\~]{2}/g, '<del>$1</del>');
+      
+      //pre
+      md = md.replace(/^\s*\n\`\`\`(([^\s]+))?/gm, '<pre class="$2">');
+      md = md.replace(/^\`\`\`\s*\n/gm, '</pre>\n\n');
+      
+      //code
+      md = md.replace(/[\`]{1}([^\`]+)[\`]{1}/g, '<code>$1</code>');
+      
+      //p
+      md = md.replace(/^\s*(\n)?(.+)/gm, function(m){
+        return  /\<(\/)?(h\d|ul|ol|li|blockquote|pre|img)/.test(m) ? m : '<p>'+m+'</p>';
+      });
+      
+      //strip p from pre
+      md = md.replace(/(\<pre.+\>)\s*\n\<p\>(.+)\<\/p\>/gm, '$1$2');
+      
+      return md;
+    }
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
