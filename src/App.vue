@@ -1,22 +1,27 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld />
+    <div class="container">
+      <AutumnViewer />
+      <AutumnEditor />
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import AutumnEditor from './components/AutumnEditor.vue'
+import AutumnViewer from './components/AutumnViewer.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    AutumnEditor,
+    AutumnViewer,
   }
 }
 </script>
 
-<style>
+<style scoped>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -24,5 +29,11 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 50vh;
 }
 </style>
