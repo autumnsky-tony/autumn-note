@@ -30,3 +30,16 @@ console.log('Abcdea'.match(manyCase))
 // 두 옵션을 한번에 작성하는 것도 가능
 const allAlphaManyCase = /a/ig
 console.log('Abcdea'.match(allAlphaManyCase))
+
+const str = '"홍,길동" <abc@hong.kr>, "김,길동" <kim@mail.net>';
+const res = str.replace(/".*?"/g, function (match) {
+  return match.replace(/,/g, "")
+});
+console.log(res)
+
+const codeBlockText = '# hello\n<h1>안녕하세요</h1>\n ```html\n &lt;h1&gt; 안녕하세요&lt;/h1&gt;\n```'
+const checkCodeBlock = codeBlockText.replace(/```[^]*?```/g, function (match) {
+  return match.replace(/&lt;/g, "<").replace(/&gt;/g, ">")
+})
+
+console.log(checkCodeBlock)
