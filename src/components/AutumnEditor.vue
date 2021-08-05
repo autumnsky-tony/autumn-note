@@ -1,49 +1,25 @@
 <template>
-  <div>
-    <div v-for="(sentence, idx) in sentences" :key="idx">
-      <component :is="'Heading1'" v-bind="{ content: markdownParser(sentence) }"></component>
-    </div>
-    <textarea v-model="content" name="" id="" cols="30" rows="10"></textarea>
-    <div id="editor">
-      <textarea :value="input" @input="update"></textarea>
-      <div v-html="compiledMarkdown"></div>
-    </div>
-    <button @click="setSentences">변환</button>
+  <div id="editor" class="p-5 bg-green-100">
+    <textarea
+      class="border-2 w-full h-full"
+      :value="input"
+      @input="update">
+    </textarea>
   </div>
 </template>
 
 <script>
-import Heading1 from './Heading1.vue'
-import marked from 'marked'
-import _ from 'lodash'
-
 export default {
-  name: 'HelloWorld',
-  components: {
-    Heading1
-  },
-  data() {
-    return {
-      input: '# hello',
-      content: '',
-      sentences : [],
+  name: 'AutumnEditor',
+  props: {
+    input: {
+      type: String
     }
   },
-  methods: {  
-    setSentences() {
-      this.sentences = this.content.split('\n')
-    },
-    markdownParser(sentence) {
-      return sentence
-    },
-    update: _.debounce(function (e) {
-      this.input = e.target.value
-    }, 300)
-  },
-  computed: {
-    compiledMarkdown: function () {
-      return marked(this.input)
+  methods: {
+    update(event) {
+      this.$emit('update', event)
     }
-  },
+  }
 }
 </script>
