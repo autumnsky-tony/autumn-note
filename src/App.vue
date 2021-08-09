@@ -28,7 +28,7 @@ export default {
   },
   data() {
     return {
-      input: '# hello\n<h1>안녕하세요</h1>\n ```html\n <h1>안녕하세요</h1>\n```',
+      input: '# hello\n<h1>안녕하세요</h1>\n ```html\n <h1>안녕하세요</h1>\n```test',
       compiledMarkdown: '',
     }
   },
@@ -37,16 +37,10 @@ export default {
       this.input = e.target.value
     }, 300),
     preview() {
-      this.compiledMarkdown = marked(this.sanitizedText.replace(/```[^]*?```/g, function (match) {
-        return match.replace(/&lt;/g, "<").replace(/&gt;/g, ">")
-      }))
+      this.compiledMarkdown = marked(this.input)
+      console.log(marked(this.compiledMarkdown))
     }
   },
-  computed: {
-    sanitizedText() {
-      return this.input.replace(/</g, '&lt;').replace(/>/g, '&gt;')
-    }
-  }
 }
 </script>
 
