@@ -5,12 +5,16 @@
       <AutumnEditor :input="input" @update="update" />
     </div>
     <button @click="preview">변환하기</button>
+    <div>
+      <ToastEditor />
+    </div>
   </div>
 </template>
 
 <script>
 import AutumnEditor from './components/AutumnEditor.vue'
 import AutumnViewer from './components/AutumnViewer.vue'
+import ToastEditor from './components/ToastEditor.vue'
 
 import marked from 'marked'
 import _ from 'lodash'
@@ -20,6 +24,7 @@ export default {
   components: {
     AutumnEditor,
     AutumnViewer,
+    ToastEditor
   },
   data() {
     return {
