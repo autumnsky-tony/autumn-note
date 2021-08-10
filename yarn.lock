@@ -1011,6 +1011,13 @@
     "prosemirror-state" "^1.3.4"
     "prosemirror-view" "^1.18.7"
 
+"@toast-ui/vue-editor@^3.0.2":
+  "integrity" "sha512-16ODRlWGvVpAa8wgI6i93O3Op3kn5BCKDO8fVsQO1KLTgaBCwTYoCE9DWcwPMXgmzCAWEYypnphpXx1M86BJIg=="
+  "resolved" "https://registry.npmjs.org/@toast-ui/vue-editor/-/vue-editor-3.0.2.tgz"
+  "version" "3.0.2"
+  dependencies:
+    "@toast-ui/editor" "^3.0.2"
+
 "@types/body-parser@*":
   "integrity" "sha1-DAF0xCp9AXuBgwPUtdlpywt1kpw="
   "resolved" "https://registry.nlark.com/@types/body-parser/download/@types/body-parser-1.19.1.tgz"
@@ -8741,7 +8748,7 @@
   "resolved" "https://registry.nlark.com/vue-template-es2015-compiler/download/vue-template-es2015-compiler-1.9.1.tgz"
   "version" "1.9.1"
 
-"vue@^2 || ^3.0.0-0", "vue@^2.6.11":
+"vue@^2 || ^3.0.0-0", "vue@^2.5.0", "vue@^2.6.11":
   "integrity" "sha1-5RqlJQJQ1Wmj+606ilpofWA24jU="
   "resolved" "https://registry.nlark.com/vue/download/vue-2.6.14.tgz"
   "version" "2.6.14"
